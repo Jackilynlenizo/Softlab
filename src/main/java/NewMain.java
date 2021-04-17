@@ -15,6 +15,7 @@ public class NewMain {
      */
     public static void main(String[] args) {
         System.out.println("softlab");
+        System.out.println("Henlo hehe");
     }
     
 }
