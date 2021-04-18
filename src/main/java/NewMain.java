@@ -29,11 +29,18 @@ class Transactions {
     // TODO: Payments class, etc etc
 }
 
-public class NewMain {
-
-    public static void main(String[] args) {
-        System.out.println("softlab");
-        System.out.println("Henlo hehe");
+class Utils {
+    // Ang laman ng utils class na to, puro mga functions na extra lang
+    // Yung mga functions na feeling niyo hindi fit ilagay sa ibang class
+    public static double getTotalPrice(double [] arr) {
+        // Must return the total price of array of items
+        return 3.14; // Change this later
     }
-    
+}
+
+public class NewMain {
+    public static void main(String[] args) {
+        
+        
+    }
 }
