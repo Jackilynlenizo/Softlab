@@ -18,6 +18,17 @@ conditions:
  *
  * @author LENIZO
  */
+
+class Display {
+    // Laman ng class na to every attribute or method na may kinalaman sa pag
+    // output ng text sa terminal
+}
+
+class Transactions {
+    // Base class for payments, etc
+    // TODO: Payments class, etc etc
+}
+
 public class NewMain {
 
     public static void main(String[] args) {
