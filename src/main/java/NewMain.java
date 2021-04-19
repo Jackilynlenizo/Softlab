@@ -65,6 +65,22 @@ class Purchase extends Transaction {
         }
         return subtotal;
     }
+
+    public int pay(Payment t_payment) {
+        // If you're wondering why this needs to return an int, pay() needs to return
+        // something if ever an error occurs. i.e. return 1 if everything is OK, return 2
+        // if kulang pera etc etc, that way mahahandle ng program in if ever magka problem
+        if (t_payment.amount >= subtotal*VAT) {
+            // Pag tama amount ng pera nung bumili, ibig sabihin proceed, else return an error code
+            this.amountPaid = t_payment.amount;
+            this.amountChange = t_payment.amount - subtotal*VAT;
+            return 1;
+        } else {
+            // Hindi q na dito ilalagay yung print not enough funds keme,
+            // sa UI part niyo nalang ihandle basta 2 ang return code neto pag ganun
+            return 2;
+        }
+    }
 }
 
 class Payment {
@@ -77,24 +93,21 @@ class Payment {
     String accountHolder;
 
     // Constructor overloads, an example of pmorphism
-    public Payment() {
-        super();
+    public Payment(String t_method, double t_amount) {
+        this.method = t_method;
+        this.amount = t_amount;
     }
 
-    public int pay(double t_amount) {
-        // If you're wondering why this needs to return an int, pay() needs to return
-        // something if ever an error occurs. i.e. return 1 if everything is OK, return 2
-        // if kulang pera etc etc, that way mahahandle ng program in if ever magka problem
-        if (t_amount >= subtotal*VAT) {
-            // Pag tama amount ng pera nung bumili, ibig sabihin proceed, else return an error code
-            this.amountPaid = t_amount;
-            this.amountChange = t_amount - subtotal*VAT;
-            return 1;
-        } else {
-            // Hindi q na dito ilalagay yung print not enough funds keme,
-            // sa UI part niyo nalang ihandle basta 2 ang return code neto pag ganun
-            return 2;
-        }
+    public Payment(String t_method,
+                    double t_amount,
+                    String t_cardNumber,
+                    String t_expDate, String t_pin, String t_accountHolder) {
+        this.method = t_method;
+        this.amount = t_amount;
+        this.cardNumber = t_cardNumber;
+        this.expDate = t_expDate;
+        this.pin = t_pin;
+        this.accountHolder = t_accountHolder;
     }
 }
 
