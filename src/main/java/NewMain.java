@@ -46,6 +46,9 @@ class Transaction {
 
 class Purchase extends Transaction {
     public double subtotal;
+    public double amountPaid;
+    public double amountChange;
+    private final double VAT = 1.12; // multiply this to subtotal to get subtotal+12% VAT
     private ArrayList<Product> cart; // ArrayList in Java are just dynamic arrays
     
     public Purchase() {
@@ -60,25 +63,22 @@ class Purchase extends Transaction {
         for (int i=0; i < cart.size(); i++) {
             subtotal = subtotal + cart.get(i).itemPrice; // Get price of every item in cart
         }
-        
         return subtotal;
     }
 }
 
-class Payment extends Purchase {
-    private final double VAT = 1.12; // multiply this to subtotal to get subtotal+12% VAT
-    public double amountPaid;
-    public double amountChange;
+class Payment {
     
     String method; // Method can be "cash", "credit", "debit", "gcash", "paymaya"
+    double amount;
+    String cardNumber;
+    String expDate; // Ideally this should be a datetime or equivalent datatype
+    String pin;
+    String accountHolder;
 
     // Constructor overloads, an example of pmorphism
     public Payment() {
-         super();   
-    }
-    
-    public Payment(String t_method) {
-        this.method = t_method;
+        super();
     }
 
     public int pay(double t_amount) {
