@@ -24,9 +24,59 @@ class Display {
     // output ng text sa terminal
 }
 
-class Transactions {
+class Transaction {
     // Base class for payments, etc
     // TODO: Payments class, etc etc
+
+    // transactionTypes can be "purchase", "history", "printRecord"
+    // NOTE: Maybe this can be implemented better using multiple inheritance
+    private String transactionType;
+    private int transactionNumber;        
+
+    // Constructor overloads, an example of pmorphism
+    public Transaction() {
+        super();
+    }
+    
+    public Transaction(String t_transactionType) {
+        this.transactionType = t_transactionType;
+    }
+}
+
+class Payment extends Transaction {
+    private final double VAT = 1.12; // multiply this to subtotal to get subtotal+12% VAT
+    public double amountPaid;
+    public double subtotal;
+    public double amountChange;
+    
+    String method; // Method can be "cash", "credit", "debit", "gcash", "paymaya"
+
+    // Constructor overloads, an example of pmorphism
+    public Payment() {
+         super();   
+    }
+    
+    public Payment(String t_transactionType, String t_method, double t_subtotal) {
+        super(t_transactionType);
+        this.method = t_method;
+        this.subtotal = t_subtotal;
+    }
+
+    public int pay(double t_amount) {
+        // If you're wondering why this needs to return an int, pay() needs to return
+        // something if ever an error occurs. i.e. return 1 if everything is OK, return 2
+        // if kulang pera etc etc, that way mahahandle ng program in if ever magka problem
+        if (t_amount >= subtotal*VAT) {
+            // Pag tama amount ng pera nung bumili, ibig sabihin proceed, else return an error code
+            this.amountPaid = t_amount;
+            this.amountChange = t_amount - subtotal*VAT;
+            return 1;
+        } else {
+            // Hindi q na dito ilalagay yung print not enough funds keme,
+            // sa UI part niyo nalang ihandle basta 2 ang return code neto pag ganun
+            return 2;
+        }
+    }
 }
 
 class Utils {
