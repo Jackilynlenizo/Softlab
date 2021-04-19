@@ -19,34 +19,55 @@ conditions:
  * @author LENIZO
  */
 
+import java.util.ArrayList;
+
 class Display {
     // Laman ng class na to every attribute or method na may kinalaman sa pag
     // output ng text sa terminal
+}
+
+class Product {
+    public String productName;
+    public int productCode;
+    public double itemPrice;
 }
 
 class Transaction {
     // Base class for payments, etc
     // TODO: Payments class, etc etc
 
-    // transactionTypes can be "purchase", "history", "printRecord"
-    // NOTE: Maybe this can be implemented better using multiple inheritance
-    private String transactionType;
     private int transactionNumber;        
 
     // Constructor overloads, an example of pmorphism
     public Transaction() {
         super();
     }
+}
+
+class Purchase extends Transaction {
+    public double subtotal;
+    private ArrayList<Product> cart; // ArrayList in Java are just dynamic arrays
     
-    public Transaction(String t_transactionType) {
-        this.transactionType = t_transactionType;
+    public Purchase() {
+        super();
+    }
+
+    public void addToCart(Product t_item) {
+        this.cart.add(t_item);
+    }
+
+    public double getSubtotal() {
+        for (int i=0; i < cart.size(); i++) {
+            subtotal = subtotal + cart.get(i).itemPrice; // Get price of every item in cart
+        }
+        
+        return subtotal;
     }
 }
 
-class Payment extends Transaction {
+class Payment extends Purchase {
     private final double VAT = 1.12; // multiply this to subtotal to get subtotal+12% VAT
     public double amountPaid;
-    public double subtotal;
     public double amountChange;
     
     String method; // Method can be "cash", "credit", "debit", "gcash", "paymaya"
@@ -56,10 +77,8 @@ class Payment extends Transaction {
          super();   
     }
     
-    public Payment(String t_transactionType, String t_method, double t_subtotal) {
-        super(t_transactionType);
+    public Payment(String t_method) {
         this.method = t_method;
-        this.subtotal = t_subtotal;
     }
 
     public int pay(double t_amount) {
