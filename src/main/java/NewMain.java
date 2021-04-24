@@ -23,8 +23,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class Display {
-    // Laman ng class na to every attribute or method na may kinalaman sa pag
-    // output ng text sa terminal
+      public static void menu() {
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA     ");
+            System.out.println("\t\t\t\t        1. Menu                        ");
+            System.out.println("\t\t\t\t        2. Transaction History         ");
+            System.out.println("\t\t\t\t        3. Exit                        ");
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
+    public static void order() {
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("\t\t\t\t          MENU                   ");
+            System.out.println("\t\t\t\t        1. Pizza                 ");
+            System.out.println("\t\t\t\t        2. Pasta                 ");
+            System.out.println("\t\t\t\t        3. Chicken               ");
+            System.out.println("\t\t\t\t        4. Beverage              ");
+            System.out.println("\t\t\t\t        5. CANCEL                ");
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
 }
 
 class Product {
@@ -284,29 +301,8 @@ class Chicken extends Menu {
 }
 
 public class NewMain {
-    
-      static void menu() {
-            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA     ");
-            System.out.println("\t\t\t\t        1. Menu                        ");
-            System.out.println("\t\t\t\t        2. Transaction History         ");
-            System.out.println("\t\t\t\t        3. Exit                        ");
-            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }
-
-    static void order() {
-            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("\t\t\t\t          MENU                   ");
-            System.out.println("\t\t\t\t        1. Pizza                 ");
-            System.out.println("\t\t\t\t        2. Pasta                 ");
-            System.out.println("\t\t\t\t        3. Chicken               ");
-            System.out.println("\t\t\t\t        4. Beverage              ");
-            System.out.println("\t\t\t\t        5. CANCEL                ");
-            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }
 
         public static void main(String[] args){
-
         Scanner input = new Scanner(System.in);
         int choice;
         int pick;
@@ -314,10 +310,10 @@ public class NewMain {
         int trans =0;
       
 do {
-      menu();
+      Display.menu();
       choice = input.nextInt();
       if(choice == 1){
-          order();
+          Display.order();
           pick = input.nextInt();
           count=0;
           
@@ -350,7 +346,7 @@ do {
       }
       else{
           System.out.println("Pick from Pizza, Pasta, Chicken, or Beverage only!");
-          order ();
+          Display.order ();
       }
   }
 
@@ -368,7 +364,7 @@ do {
       else {
           System.out.println("Invalid Entry");
           System.out.println("Choose 1, 2 or 3 only!");
-          menu();
+          Display.menu();
           count = 0;
       }
   }
