@@ -20,6 +20,7 @@ conditions:
  */
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 class Display {
     // Laman ng class na to every attribute or method na may kinalaman sa pag
@@ -120,9 +121,257 @@ class Utils {
     }
 }
 
-public class NewMain {
-    public static void main(String[] args) {
-        
-        
+//Superclass
+class Menu{
+    public String name;
+    public double price;
+    
+    public Menu(){
+        super();
     }
+    
+    public Menu(String t_name, double t_price){
+        this.name = t_name;
+        this.price = t_price;
+    }
+}
+
+class Pizza extends Menu{
+    public String size;
+    public String flavors;
+    
+    public Pizza(){
+        super();
+    }
+    
+    public Pizza(String size, String flavors){
+        this.size = size;
+        if (null != size)
+            switch (size) {
+            case "Regular":
+                this.price = 349;
+                break;
+            case "Large":
+                this.price = 599;
+                break;
+            case "Party":
+                this.price = 799;
+                break;
+            default:
+                System.out.println("Invalid option.");
+        }
+        if (null != flavors)
+            switch (flavors) {
+            case "Pepperoni":
+                this.flavors = "Pepperoni";
+                break;
+            case "Hawaiian":
+                this.flavors = "Hawaiian";
+                break;
+            case "4 Cheese":
+                this.flavors = "4 Cheese";
+                break;
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
+}
+
+
+class Pasta extends Menu{
+    public String serving;
+    public String typeofPasta;
+    
+    public Pasta(){
+        super();
+    }
+    
+    public Pasta (String serving, String typeofPasta){
+        this.serving = serving;
+        if (null != serving)
+            switch (serving) {
+                case "Solo":
+                    this.price = 99;
+                    break;
+                case "Pan":
+                    this.price = 249;
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+        if (null != typeofPasta)
+            switch (typeofPasta) {
+                case "Spaghetti":
+                    this.typeofPasta = "Spaghetti";
+                    break;
+                case "Carbonara":
+                    this.typeofPasta = "Carbonara";
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+    } 
+}
+
+class Beverages extends Menu{
+    public String size;
+    public String drinks;
+    
+    public Beverages() {
+        super();
+    }
+    
+    public Beverages(String size){
+        this.size  = size;
+        if (null != size)
+            switch (size) {
+                case "Tin Can":
+                    this.price = 49;
+                    break;
+                case "Pitcher":
+                   this.price = 99;
+                   break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+        if (null != drinks)
+            switch (drinks) {
+                case "Pepsi":
+                    this.drinks = "Pepsi";
+                    break;
+                case "Coke":
+                   this.drinks = "Coke";
+                   break;
+                case "Sprite":
+                   this.drinks = "Sprite";
+                   break;
+                case "Royal":
+                   this.drinks = "Royal";
+                   break;
+                case "Root beer":
+                   this.drinks = "Root beer";
+                   break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+    } 
+}
+
+class Chicken extends Menu {
+    public String size;
+    
+    public Chicken(){
+        super();
+    }
+    
+    public Chicken(String size){
+        this.size = size;
+        if (null != size)
+            switch (size) {
+            case "Small Bucket":
+                this.price = 299;
+                break;
+            case "Medium Bucket":
+                this.price = 549;
+                break;
+            case "Large Bucket":
+                this.price = 799;
+                break;
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
+}
+
+public class NewMain {
+    
+      static void menu() {
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA     ");
+            System.out.println("\t\t\t\t        1. Menu                        ");
+            System.out.println("\t\t\t\t        2. Transaction History         ");
+            System.out.println("\t\t\t\t        3. Exit                        ");
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
+    static void order() {
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("\t\t\t\t          MENU                   ");
+            System.out.println("\t\t\t\t        1. Pizza                 ");
+            System.out.println("\t\t\t\t        2. Pasta                 ");
+            System.out.println("\t\t\t\t        3. Chicken               ");
+            System.out.println("\t\t\t\t        4. Beverage              ");
+            System.out.println("\t\t\t\t        5. CANCEL                ");
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
+        public static void main(String[] args){
+
+        Scanner input = new Scanner(System.in);
+        int choice;
+        int pick;
+        int count =0;
+        int trans =0;
+      
+do {
+      menu();
+      choice = input.nextInt();
+      if(choice == 1){
+          order();
+          pick = input.nextInt();
+          count=0;
+          
+  
+      if(pick == 1){
+          System.out.println("PIZZA");
+          count = 0;
+          trans++;
+      }
+
+      else if(pick == 2){
+          System.out.println("PASTA");   
+          count = 0;
+          trans++;
+      }
+
+      else if(pick == 3){
+          System.out.println("CHICKEN");   
+          count = 0;
+          trans++;
+      }
+
+      else if(pick == 4){
+          System.out.println("BEVERAGE");    
+          count = 0;
+          trans++;
+      }
+      else if(pick ==5){
+           count = 0;
+      }
+      else{
+          System.out.println("Pick from Pizza, Pasta, Chicken, or Beverage only!");
+          order ();
+      }
+  }
+
+
+      else if(choice == 2){
+          System.out.println("Total of transactions " + trans);
+          System.exit(0);
+          count = 0;
+      }
+      else if(choice == 3) {
+          System.exit(0);
+          count = 0;
+      }
+
+      else {
+          System.out.println("Invalid Entry");
+          System.out.println("Choose 1, 2 or 3 only!");
+          menu();
+          count = 0;
+      }
+  }
+while(count == 0);
+}
 }
