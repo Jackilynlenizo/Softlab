@@ -83,12 +83,6 @@ class Display { // Function classes for all display related functions
     }
 }
 
-class Product {
-    public String productName;
-    public int productCode;
-    public double itemPrice;
-}
-
 class Transaction {
     // Base class for payments, etc
     // TODO: Payments class, etc etc
@@ -96,8 +90,9 @@ class Transaction {
     private int transactionNumber;        
 
     // Constructor overloads, an example of pmorphism
-    public Transaction() {
+    public Transaction(int t_transactionNumber) {
         super();
+        this.transactionNumber = t_transactionNumber;
     }
 }
 
@@ -106,19 +101,19 @@ class Purchase extends Transaction {
     public double amountPaid;
     public double amountChange;
     private final double VAT = 1.12; // multiply this to subtotal to get subtotal+12% VAT
-    private ArrayList<Product> cart; // ArrayList in Java are just dynamic arrays
+    private ArrayList<Menu> cart = new ArrayList(); // ArrayList in Java are just dynamic arrays
     
-    public Purchase() {
-        super();
+    public Purchase(int t_transactionNumber) {
+        super(t_transactionNumber);
     }
 
-    public void addToCart(Product t_item) {
+    public void addOrder(Menu t_item) {
         this.cart.add(t_item);
     }
 
     public double getSubtotal() {
         for (int i=0; i < cart.size(); i++) {
-            subtotal = subtotal + cart.get(i).itemPrice; // Get price of every item in cart
+            subtotal = subtotal + cart.get(i).price; // Get price of every item in cart
         }
         return subtotal;
     }
@@ -281,15 +276,15 @@ class Pasta extends Menu{
   }
 }
 
-class Beverages extends Menu{
+class Beverage extends Menu{
     public String size;
     public String drinks;
     
-    public Beverages() {
+    public Beverage() {
         super();
     }
     
-  public Beverages(String size, String drinks){
+  public Beverage(String size, String drinks){
         this.size  = size;
         if (null != size)
             switch (size) {
@@ -385,72 +380,76 @@ public class NewMain {
             System.out.print("\t\t\t\t\tYour Input:" );
             choice = input.nextInt();
             if(choice == 1){
+                Purchase currentPurchase = new Purchase(1); // TODO: Make util function that generates trans numbers
                 Display.order();
                 System.out.print("\t\t\t\t\tYour Input:" );
                 pick = input.nextInt();
                 count = 0;
-                if(pick == 1){
+                if(pick == 1) {
                     Display.PizzaOrder();
+                    Pizza pizzaPurchase = new Pizza();
                     System.out.println("\n\t\t\t\t\tSelect Flavor" );
                     System.out.println("\t\t\t\t\tInputs should corresponds to options: Pepperoni - for Pepperoni ; Hawaiian - for Hawaiian; 4Cheese - for 4 Cheese");
                     System.out.println("\t\t\t\t\tYour Input:" );
-                    pizzaFlavor =input.next();    
+                    pizzaPurchase.flavors =input.next();    
                     System.out.println("\n\t\t\t\t\tSelect Size" );
                     System.out.println("\t\t\t\t\tInputs should be: R - for regular ; L - for Large; P - for Party" );
                     System.out.println("\t\t\t\t\tYour Input:" );
-                    pizzaSize =input.next();
+                    pizzaPurchase.size = input.next();
                     System.out.println("\t\t\t\t\tEnter Quantity: " );
-                    qty = input.nextInt();
-                    Pizza pz = new Pizza (pizzaSize, pizzaFlavor);
-                    totalAmt1 = pz.getPizzaPrice() * qty;
-                    System.out.println("\t\t\t\t\tYou have purchased "+ pz.getFlavor()+" Pizza x"+ qty + " for "+ totalAmt1);
+                    qty = input.nextInt(); // TODO handle quantities
+//                    totalAmt1 = pz.getPizzaPrice() * qty; // and prices
+//                    System.out.println("\t\t\t\t\tYou have purchased "+ pz.getFlavor()+" Pizza x"+ qty + " for "+ totalAmt1);
+                    currentPurchase.addOrder(pizzaPurchase);
                     count = 0;
                     trans++;
                 } else if(pick == 2) {
                     Display.PastaOrder();
+                    Pasta pastaPurchase = new Pasta();
                     System.out.println("\n\t\t\t\t\tSelect Type of Pasta" );
                     System.out.println("\t\t\t\t\tInputs should corresponds to options: Spagehetti - for Spaghetti ; Carbonara - for Carbonara");
                     System.out.println("\t\t\t\t\tYour Input:" );
-                    pastaType = input.next();
+                    pastaPurchase.typeofPasta = input.next();
                     System.out.println("\n\t\t\t\t\tEnter Serving" );
                     System.out.println("\t\t\t\t\tInputs should be: S - for solo ; P - for Pan" );
                     System.out.println("\t\t\t\t\tYour Input:" );
-                    pastaServing = input.next();
+                    pastaPurchase.serving = input.next();
                     System.out.println("\t\t\t\t\tEnter Quantity: " );
                     qty = input.nextInt();
-                    Pasta ps = new Pasta (pastaServing, pastaType);
-                    totalAmt2 = ps.getPastaPrice() * qty;
-                    System.out.println("\t\t\t\t\tYou have purchased "+ ps.getPasta()+" x"+ qty + " for "+ totalAmt2);
+//                    totalAmt2 = ps.getPastaPrice() * qty;
+//                    System.out.println("\t\t\t\t\tYou have purchased "+ ps.getPasta()+" x"+ qty + " for "+ totalAmt2);
+                    currentPurchase.addOrder(pastaPurchase);
                     count = 0;
                     trans++;
                 } else if(pick == 3) {
                     Display.ChickenOrder();
+                    Chicken chickenPurchase = new Chicken();
                     System.out.println("\n\t\t\t\t\tSelect Bucket Plan" );
                     System.out.println("\t\t\t\t\tInputs should corresponds to options: SmallBucket - for Small Bucket ; MediumBucket - for Medium Bucket; LargeBucket - for Large Bucket");
                     System.out.println("\t\t\t\t\tYour Input:" );
-                    bucketPlan = input.next();
+                    chickenPurchase.size = input.next();
                     System.out.println("\t\t\t\t\tEnter Quantity: " );
                     qty = input.nextInt();
-                    Chicken ck = new Chicken (bucketPlan);
-                    totalAmt4 = ck.getChickenPrice() * qty;
-                    System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
+//                    totalAmt4 = ck.getChickenPrice() * qty;
+//                    System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
+                    currentPurchase.addOrder(chickenPurchase);
                     count = 0;
                     trans++;
                 } else if(pick == 4) {
                     Display.BeverageOrder();
+                    Beverage beveragePurchase = new Beverage();
                     System.out.println("\n\t\t\t\t\tSelect Drink" );
                     System.out.println("\t\t\t\t\tInputs should corresponds to options: 1 - for Pepsi ; 2 - for Coke; 3 - for Sprite; 4 - for Royal; 5 - for Root Beer");
                     System.out.println("\t\t\t\t\tYour Input:" );
-                    DrinkNum = input.next();
+                    beveragePurchase.drinks = input.next();
                     System.out.println("\n\t\t\t\t\tEnter Size" );
                     System.out.println("\t\t\t\t\tInputs should be: T - for Tin Can ; P - for Pitcher" );
                     System.out.println("\t\t\t\t\tYour Input:" );
-                    drinkSize = input.next();
+                    beveragePurchase.size = input.next();
                     System.out.println("\t\t\t\t\tEnter Quantity: " );
                     qty = input.nextInt();
-                    Beverages bv = new Beverages (drinkSize, DrinkNum);
-                    totalAmt4 = bv.getBeveragePrice() * qty;
-                    System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
+//                    totalAmt4 = bv.getBeveragePrice() * qty;
+//                    System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
                     count = 0;
                     trans++;
                 } else if(pick ==5) {
