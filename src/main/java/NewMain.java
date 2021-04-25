@@ -26,13 +26,22 @@ class Display { // Function classes for all display related functions
     public static void menu() {
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA     ");
-            System.out.println("\t\t\t\t        [1] Menu                        ");
+            System.out.println("\t\t\t\t        [1] New Order                        ");
             System.out.println("\t\t\t\t        [2] Transaction History         ");
             System.out.println("\t\t\t\t        [3] Exit                        ");
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
-    public static void order() {
+    public static void order(int t_orderNumber) {
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("\t\t\t\t      ORDER NO. " + t_orderNumber);
+            System.out.println("\t\t\t\t        [1] Add Food                        ");
+            System.out.println("\t\t\t\t        [2] Pay and Finish Order         ");
+            System.out.println("\t\t\t\t        [3] Cancel Order                        ");
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+    
+    public static void food() {
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("\t\t\t\t          MENU                   ");
             System.out.println("\t\t\t\t        [1] Pizza                 ");
@@ -42,6 +51,19 @@ class Display { // Function classes for all display related functions
             System.out.println("\t\t\t\t        [5] CANCEL                ");
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
+    
+    public static void pay() {
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("\t\t\t\t          PAYMENT METHOD                   ");
+            System.out.println("\t\t\t\t        [1] Cash                 ");
+            System.out.println("\t\t\t\t        [2] Credit Card                 ");
+            System.out.println("\t\t\t\t        [3] Debit Card               ");
+            System.out.println("\t\t\t\t        [4] PayMaya              ");
+            System.out.println("\t\t\t\t        [5] GCash                ");
+            System.out.println("\t\t\t\t        [6] CANCEL ORDER");
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
     public static void PizzaOrder() {
         System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println("\t\t\t\t        Pizza Menu               ");
@@ -97,25 +119,29 @@ class Transaction {
 }
 
 class Purchase extends Transaction {
-    public double subtotal;
+    private double subtotal;
     public double amountPaid;
     public double amountChange;
     private final double VAT = 1.12; // multiply this to subtotal to get subtotal+12% VAT
-    private ArrayList<Menu> cart = new ArrayList(); // ArrayList in Java are just dynamic arrays
+    private ArrayList<Menu> orderList = new ArrayList(); // ArrayList in Java are just dynamic arrays
     
     public Purchase(int t_transactionNumber) {
         super(t_transactionNumber);
     }
 
     public void addOrder(Menu t_item) {
-        this.cart.add(t_item);
+        this.orderList.add(t_item);
     }
 
     public double getSubtotal() {
-        for (int i=0; i < cart.size(); i++) {
-            subtotal = subtotal + cart.get(i).price; // Get price of every item in cart
+        for (int i=0; i < orderList.size(); i++) {
+            subtotal = subtotal + orderList.get(i).price; // Get price of every item in orderList
         }
         return subtotal;
+    }
+
+    public double getTotal() {
+        return getSubtotal() * VAT;
     }
 
     public int pay(Payment t_payment) {
@@ -137,12 +163,11 @@ class Purchase extends Transaction {
 
 class Payment {
     
-    String method; // Method can be "cash", "credit", "debit", "gcash", "paymaya"
+    private String method; // Method can be "cash", "credit", "debit", "gcash", "paymaya"
     double amount;
-    String cardNumber;
-    String expDate; // Ideally this should be a datetime or equivalent datatype
-    String pin;
-    String accountHolder;
+    private String cardNumber;
+    private String pin;
+    private String accountHolder;
 
     // Constructor overloads, an example of pmorphism
     public Payment(String t_method, double t_amount) {
@@ -153,11 +178,11 @@ class Payment {
     public Payment(String t_method,
                     double t_amount,
                     String t_cardNumber,
-                    String t_expDate, String t_pin, String t_accountHolder) {
+                    String t_pin,
+                    String t_accountHolder) {
         this.method = t_method;
         this.amount = t_amount;
         this.cardNumber = t_cardNumber;
-        this.expDate = t_expDate;
         this.pin = t_pin;
         this.accountHolder = t_accountHolder;
     }
@@ -358,8 +383,10 @@ class Chicken extends Menu {
 public class NewMain {
 	public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        int choice;
-        int pick;
+        int menuChoice;
+        int orderChoice;
+        int foodChoice;
+        int paymentChoice;
         int count =0;
         int trans =0;
         int qty = 0;
@@ -375,98 +402,142 @@ public class NewMain {
         String bucketPlan;
         String DrinkNum;
         
-        do {
-            Display.menu();
+        boolean exit = false; // Exit flag, if true, get out of loop
+        while (!exit) {
+            Display.menu(); // Display main menu
             System.out.print("\t\t\t\t\tYour Input:" );
-            choice = input.nextInt();
-            if(choice == 1){
-                Purchase currentPurchase = new Purchase(1); // TODO: Make util function that generates trans numbers
-                Display.order();
-                System.out.print("\t\t\t\t\tYour Input:" );
-                pick = input.nextInt();
-                count = 0;
-                if(pick == 1) {
-                    Display.PizzaOrder();
-                    Pizza pizzaPurchase = new Pizza();
-                    System.out.println("\n\t\t\t\t\tSelect Flavor" );
-                    System.out.println("\t\t\t\t\tInputs should corresponds to options: Pepperoni - for Pepperoni ; Hawaiian - for Hawaiian; 4Cheese - for 4 Cheese");
-                    System.out.println("\t\t\t\t\tYour Input:" );
-                    pizzaPurchase.flavors =input.next();    
-                    System.out.println("\n\t\t\t\t\tSelect Size" );
-                    System.out.println("\t\t\t\t\tInputs should be: R - for regular ; L - for Large; P - for Party" );
-                    System.out.println("\t\t\t\t\tYour Input:" );
-                    pizzaPurchase.size = input.next();
-                    System.out.println("\t\t\t\t\tEnter Quantity: " );
-                    qty = input.nextInt(); // TODO handle quantities
-//                    totalAmt1 = pz.getPizzaPrice() * qty; // and prices
-//                    System.out.println("\t\t\t\t\tYou have purchased "+ pz.getFlavor()+" Pizza x"+ qty + " for "+ totalAmt1);
-                    currentPurchase.addOrder(pizzaPurchase);
-                    count = 0;
-                    trans++;
-                } else if(pick == 2) {
-                    Display.PastaOrder();
-                    Pasta pastaPurchase = new Pasta();
-                    System.out.println("\n\t\t\t\t\tSelect Type of Pasta" );
-                    System.out.println("\t\t\t\t\tInputs should corresponds to options: Spagehetti - for Spaghetti ; Carbonara - for Carbonara");
-                    System.out.println("\t\t\t\t\tYour Input:" );
-                    pastaPurchase.typeofPasta = input.next();
-                    System.out.println("\n\t\t\t\t\tEnter Serving" );
-                    System.out.println("\t\t\t\t\tInputs should be: S - for solo ; P - for Pan" );
-                    System.out.println("\t\t\t\t\tYour Input:" );
-                    pastaPurchase.serving = input.next();
-                    System.out.println("\t\t\t\t\tEnter Quantity: " );
-                    qty = input.nextInt();
-//                    totalAmt2 = ps.getPastaPrice() * qty;
-//                    System.out.println("\t\t\t\t\tYou have purchased "+ ps.getPasta()+" x"+ qty + " for "+ totalAmt2);
-                    currentPurchase.addOrder(pastaPurchase);
-                    count = 0;
-                    trans++;
-                } else if(pick == 3) {
-                    Display.ChickenOrder();
-                    Chicken chickenPurchase = new Chicken();
-                    System.out.println("\n\t\t\t\t\tSelect Bucket Plan" );
-                    System.out.println("\t\t\t\t\tInputs should corresponds to options: SmallBucket - for Small Bucket ; MediumBucket - for Medium Bucket; LargeBucket - for Large Bucket");
-                    System.out.println("\t\t\t\t\tYour Input:" );
-                    chickenPurchase.size = input.next();
-                    System.out.println("\t\t\t\t\tEnter Quantity: " );
-                    qty = input.nextInt();
-//                    totalAmt4 = ck.getChickenPrice() * qty;
-//                    System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
-                    currentPurchase.addOrder(chickenPurchase);
-                    count = 0;
-                    trans++;
-                } else if(pick == 4) {
-                    Display.BeverageOrder();
-                    Beverage beveragePurchase = new Beverage();
-                    System.out.println("\n\t\t\t\t\tSelect Drink" );
-                    System.out.println("\t\t\t\t\tInputs should corresponds to options: 1 - for Pepsi ; 2 - for Coke; 3 - for Sprite; 4 - for Royal; 5 - for Root Beer");
-                    System.out.println("\t\t\t\t\tYour Input:" );
-                    beveragePurchase.drinks = input.next();
-                    System.out.println("\n\t\t\t\t\tEnter Size" );
-                    System.out.println("\t\t\t\t\tInputs should be: T - for Tin Can ; P - for Pitcher" );
-                    System.out.println("\t\t\t\t\tYour Input:" );
-                    beveragePurchase.size = input.next();
-                    System.out.println("\t\t\t\t\tEnter Quantity: " );
-                    qty = input.nextInt();
-//                    totalAmt4 = bv.getBeveragePrice() * qty;
-//                    System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
-                    count = 0;
-                    trans++;
-                } else if(pick ==5) {
-                    count = 0;
-                } else {
-                    System.out.println("Pick from Pizza, Pasta, Chicken, or Beverage only!");
-                    Display.order ();
+            menuChoice = input.nextInt();
+            if(menuChoice == 1){
+                boolean exitOrder = false;
+                while (!exitOrder) {
+                    Purchase currentPurchase = new Purchase(1); // TODO: Make util function that generates trans numbers
+                    Display.order(1);
+                    System.out.println("\t\t\t\t\tYour Input:");
+                    orderChoice = input.nextInt();
+                    if (orderChoice == 1) {
+                        Display.food();
+                        System.out.print("\t\t\t\t\tYour Input:");
+                        foodChoice = input.nextInt();
+                        count = 0;
+                        if(foodChoice == 1) {
+                            Display.PizzaOrder();
+                            Pizza pizzaPurchase = new Pizza();
+                            System.out.println("\n\t\t\t\t\tSelect Flavor" );
+                            System.out.println("\t\t\t\t\tInputs should corresponds to options: Pepperoni - for Pepperoni ; Hawaiian - for Hawaiian; 4Cheese - for 4 Cheese");
+                            System.out.println("\t\t\t\t\tYour Input:" );
+                            pizzaPurchase.flavors =input.next();    
+                            System.out.println("\n\t\t\t\t\tSelect Size" );
+                            System.out.println("\t\t\t\t\tInputs should be: R - for regular ; L - for Large; P - for Party" );
+                            System.out.println("\t\t\t\t\tYour Input:" );
+                            pizzaPurchase.size = input.next();
+                            System.out.println("\t\t\t\t\tEnter Quantity: " );
+                            qty = input.nextInt(); // TODO handle quantities
+        //                    totalAmt1 = pz.getPizzaPrice() * qty; // and prices
+        //                    System.out.println("\t\t\t\t\tYou have purchased "+ pz.getFlavor()+" Pizza x"+ qty + " for "+ totalAmt1);
+                            currentPurchase.addOrder(pizzaPurchase);
+                            count = 0;
+                            trans++;
+                        } else if(foodChoice == 2) {
+                            Display.PastaOrder();
+                            Pasta pastaPurchase = new Pasta();
+                            System.out.println("\n\t\t\t\t\tSelect Type of Pasta" );
+                            System.out.println("\t\t\t\t\tInputs should corresponds to options: Spagehetti - for Spaghetti ; Carbonara - for Carbonara");
+                            System.out.println("\t\t\t\t\tYour Input:" );
+                            pastaPurchase.typeofPasta = input.next();
+                            System.out.println("\n\t\t\t\t\tEnter Serving" );
+                            System.out.println("\t\t\t\t\tInputs should be: S - for solo ; P - for Pan" );
+                            System.out.println("\t\t\t\t\tYour Input:" );
+                            pastaPurchase.serving = input.next();
+                            System.out.println("\t\t\t\t\tEnter Quantity: " );
+                            qty = input.nextInt();
+        //                    totalAmt2 = ps.getPastaPrice() * qty;
+        //                    System.out.println("\t\t\t\t\tYou have purchased "+ ps.getPasta()+" x"+ qty + " for "+ totalAmt2);
+                            currentPurchase.addOrder(pastaPurchase);
+                            count = 0;
+                            trans++;
+                        } else if(foodChoice == 3) {
+                            Display.ChickenOrder();
+                            Chicken chickenPurchase = new Chicken();
+                            System.out.println("\n\t\t\t\t\tSelect Bucket Plan" );
+                            System.out.println("\t\t\t\t\tInputs should corresponds to options: SmallBucket - for Small Bucket ; MediumBucket - for Medium Bucket; LargeBucket - for Large Bucket");
+                            System.out.println("\t\t\t\t\tYour Input:" );
+                            chickenPurchase.size = input.next();
+                            System.out.println("\t\t\t\t\tEnter Quantity: " );
+                            qty = input.nextInt();
+        //                    totalAmt4 = ck.getChickenPrice() * qty;
+        //                    System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
+                            currentPurchase.addOrder(chickenPurchase);
+                            count = 0;
+                            trans++;
+                        } else if(foodChoice == 4) {
+                            Display.BeverageOrder();
+                            Beverage beveragePurchase = new Beverage();
+                            System.out.println("\n\t\t\t\t\tSelect Drink" );
+                            System.out.println("\t\t\t\t\tInputs should corresponds to options: 1 - for Pepsi ; 2 - for Coke; 3 - for Sprite; 4 - for Royal; 5 - for Root Beer");
+                            System.out.println("\t\t\t\t\tYour Input:" );
+                            beveragePurchase.drinks = input.next();
+                            System.out.println("\n\t\t\t\t\tEnter Size" );
+                            System.out.println("\t\t\t\t\tInputs should be: T - for Tin Can ; P - for Pitcher" );
+                            System.out.println("\t\t\t\t\tYour Input:" );
+                            beveragePurchase.size = input.next();
+                            System.out.println("\t\t\t\t\tEnter Quantity: " );
+                            qty = input.nextInt();
+        //                    totalAmt4 = bv.getBeveragePrice() * qty;
+        //                    System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
+                            count = 0;
+                            trans++;
+                        } else if(foodChoice ==5) {
+                            count = 0;
+                        } else {
+                            System.out.println("Pick from Pizza, Pasta, Chicken, or Beverage only!");
+                            Display.food();
+                        }
+                    } else if (orderChoice == 2) {
+                        Display.pay();
+                        System.out.println("Amount due: "+ currentPurchase.getTotal());
+                        System.out.println("\t\t\t\t\tYour Input:" );
+                        paymentChoice = input.nextInt();
+                        double amountPaid; 
+                        String method;
+                        if (paymentChoice == 1) {
+                            method = "Cash";
+                            amountPaid = input.nextDouble();
+                            Payment currentPayment = new Payment(method, amountPaid);
+                            exitOrder = true;
+                        } else if (paymentChoice == 2 ||
+                                paymentChoice == 3 ||
+                                paymentChoice == 4 ||
+                                paymentChoice == 5) {
+                            // Debit/Credit/Online Payment
+                            System.out.println("Please let the customer fill out the following details");
+                            System.out.println("====================🔐");
+                            System.out.print("Account name: ");
+                            String inputName = input.nextLine();
+                            System.out.print("Account/Card number: ");
+                            String inputNum = input.nextLine();
+                            System.out.print("PIN: ");
+                            String inputPin = input.nextLine();
+                            Payment currentPayment = new Payment("test", currentPurchase.getTotal(), inputNum, inputPin, inputName);
+                            exitOrder = true;
+                        } else if (paymentChoice == 6) {
+                            // Cancel Payment
+                        } else {
+                            System.out.println("Invalid option");
+                        }
+                    } else if (orderChoice == 3) {
+                        // Cancel Order
+                    }
                 }
-            } else if(choice == 2) {
+                
+            } else if(menuChoice == 2) {
                 if (trans==0) {
                     System.out.println("You currently don't have any orders ");
                 } else {
                     System.out.println("Total of transactions " + trans);
                 }
                 count = 0;
-            } else if(choice == 3) {
-                System.exit(0);
+            } else if(menuChoice == 3) {
+                exit = true;
                 count = 0;
             } else {
                 System.out.println("Invalid Entry");
@@ -475,7 +546,6 @@ public class NewMain {
                 count = 0;
             }
         }
-        while(count == 0); // Dunno bat need na do...while to, pwede sigurong while lang for readability
     }
 }
 
