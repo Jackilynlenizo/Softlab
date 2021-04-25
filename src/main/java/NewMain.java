@@ -22,7 +22,65 @@ conditions:
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Display {
+class Display { // Function classes for all display related functions
+    public static void menu() {
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA     ");
+            System.out.println("\t\t\t\t        [1] Menu                        ");
+            System.out.println("\t\t\t\t        [2] Transaction History         ");
+            System.out.println("\t\t\t\t        [3] Exit                        ");
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
+    public static void order() {
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("\t\t\t\t          MENU                   ");
+            System.out.println("\t\t\t\t        [1] Pizza                 ");
+            System.out.println("\t\t\t\t        [2] Pasta                 ");
+            System.out.println("\t\t\t\t        [3] Chicken               ");
+            System.out.println("\t\t\t\t        [4] Beverage              ");
+            System.out.println("\t\t\t\t        [5] CANCEL                ");
+            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+    public static void PizzaOrder() {
+        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("\t\t\t\t        Pizza Menu               ");
+        System.out.println("\t\t\t\t        	Name			REGULAR [R]			LARGE [L]			PARTY[P]");
+        System.out.println("\t\t\t\t        [1] Pepperoni        		   349				  599				  799");
+        System.out.println("\t\t\t\t        [2] Hawaiian           		   349				  599				  799");
+        System.out.println("\t\t\t\t        [3] 4 Cheese           		   349			 	  599				  799");
+        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+    public static void PastaOrder() {
+        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("\t\t\t\t        Pasta Menu               ");
+        System.out.println("\t\t\t\t        	Name			Solo [S]			Pan [P]");
+        System.out.println("\t\t\t\t        [1] Spaghetti        		   99				  249");
+        System.out.println("\t\t\t\t        [2] Carbonara           	   99				  249");
+        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
+    public static void ChickenOrder() {
+        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("\t\t\t\t        Bucket of Chicken Menu               ");
+        System.out.println("\t\t\t\t        	Name					Price");
+        System.out.println("\t\t\t\t        [1] Small Bucket       		   299");
+        System.out.println("\t\t\t\t        [2] Medium Bucket	           549");
+        System.out.println("\t\t\t\t        [3] Large Bucket	           799");
+        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+    
+    public static void BeverageOrder() {
+        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("\t\t\t\t        Beverages Menu               ");
+        System.out.println("\t\t\t\t        	Name			Tin Can [T]			Pitcher [P]");
+        System.out.println("\t\t\t\t        [1] Pepsi       		   49				  99");
+        System.out.println("\t\t\t\t        [2] Coke	          	   49				  99");
+        System.out.println("\t\t\t\t        [3] Sprite	          	   49				  99");
+        System.out.println("\t\t\t\t        [4] Royal	          	   49				  99");
+        System.out.println("\t\t\t\t        [5] Root Beer         	   49				  99"); 
+        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
 }
 
 class Product {
@@ -297,79 +355,12 @@ class Chicken extends Menu {
                 System.out.println("Invalid option.");
         }
     }
-  public double getChickenPrice () {
+    public double getChickenPrice () {
 	  return price;
-}
-
+    }
 }
 
 public class NewMain {
-    protected static void menu() {
-            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA     ");
-            System.out.println("\t\t\t\t        [1] Menu                        ");
-            System.out.println("\t\t\t\t        [2] Transaction History         ");
-            System.out.println("\t\t\t\t        [3] Exit                        ");
-            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }
-
-    protected static void order() {
-            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("\t\t\t\t          MENU                   ");
-            System.out.println("\t\t\t\t        [1] Pizza                 ");
-            System.out.println("\t\t\t\t        [2] Pasta                 ");
-            System.out.println("\t\t\t\t        [3] Chicken               ");
-            System.out.println("\t\t\t\t        [4] Beverage              ");
-            System.out.println("\t\t\t\t        [5] CANCEL                ");
-            System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }
-    protected static void PizzaOrder() {
-        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("\t\t\t\t        Pizza Menu               ");
-        System.out.println("\t\t\t\t        	Name			REGULAR [R]			LARGE [L]			PARTY[P]");
-        System.out.println("\t\t\t\t        [1] Pepperoni        		   349				  599				  799");
-        System.out.println("\t\t\t\t        [2] Hawaiian           		   349				  599				  799");
-        System.out.println("\t\t\t\t        [3] 4 Cheese           		   349			 	  599				  799");
-        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }
-    protected static void PastaOrder() {
-        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("\t\t\t\t        Pasta Menu               ");
-        System.out.println("\t\t\t\t        	Name			Solo [S]			Pan [P]");
-        System.out.println("\t\t\t\t        [1] Spaghetti        		   99				  249");
-        System.out.println("\t\t\t\t        [2] Carbonara           	   99				  249");
-        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }
-
-    protected static void ChickenOrder() {
-        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("\t\t\t\t        Bucket of Chicken Menu               ");
-        System.out.println("\t\t\t\t        	Name					Price");
-        System.out.println("\t\t\t\t        [1] Small Bucket       		   299");
-        System.out.println("\t\t\t\t        [2] Medium Bucket	           549");
-        System.out.println("\t\t\t\t        [3] Large Bucket	           799");
-        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }
-    protected static void BeverageOrder() {
-        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("\t\t\t\t        Beverages Menu               ");
-        System.out.println("\t\t\t\t        	Name			Tin Can [T]			Pitcher [P]");
-        System.out.println("\t\t\t\t        [1] Pepsi       		   49				  99");
-        System.out.println("\t\t\t\t        [2] Coke	          	   49				  99");
-        System.out.println("\t\t\t\t        [3] Sprite	          	   49				  99");
-        System.out.println("\t\t\t\t        [4] Royal	          	   49				  99");
-        System.out.println("\t\t\t\t        [5] Root Beer         	   49				  99"); 
-        System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }
-    protected static void Syspause(int i) {
-        try {
-            Thread.sleep(i);
-        }
-        catch(InterruptedException e) {
-            
-        }
-    }
-
 	public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int choice;
@@ -390,125 +381,98 @@ public class NewMain {
         String DrinkNum;
         
         do {
-            menu();
+            Display.menu();
             System.out.print("\t\t\t\t\tYour Input:" );
             choice = input.nextInt();
             if(choice == 1){
-                order();
+                Display.order();
                 System.out.print("\t\t\t\t\tYour Input:" );
                 pick = input.nextInt();
-                count=0;
-                
+                count = 0;
                 if(pick == 1){
-                        PizzaOrder();
-                        System.out.println("\n\t\t\t\t\tSelect Flavor" );
-                        System.out.println("\t\t\t\t\tInputs should corresponds to options: Pepperoni - for Pepperoni ; Hawaiian - for Hawaiian; 4Cheese - for 4 Cheese");
-                        System.out.println("\t\t\t\t\tYour Input:" );
-                        pizzaFlavor =input.next();    
-                        System.out.println("\n\t\t\t\t\tSelect Size" );
-                        System.out.println("\t\t\t\t\tInputs should be: R - for regular ; L - for Large; P - for Party" );
-                        System.out.println("\t\t\t\t\tYour Input:" );
-                        pizzaSize =input.next();
-                        System.out.println("\t\t\t\t\tEnter Quantity: " );
-                        qty = input.nextInt();
-                        Pizza pz = new Pizza (pizzaSize, pizzaFlavor);
-                        totalAmt1 = pz.getPizzaPrice() * qty;
-                        System.out.println("\t\t\t\t\tYou have purchased "+ pz.getFlavor()+" Pizza x"+ qty + " for "+ totalAmt1);
-                        System.out.println("\t\t\t\t\tPlease wait 3 seconds\n\n\n");
-                        Syspause(3000);
+                    Display.PizzaOrder();
+                    System.out.println("\n\t\t\t\t\tSelect Flavor" );
+                    System.out.println("\t\t\t\t\tInputs should corresponds to options: Pepperoni - for Pepperoni ; Hawaiian - for Hawaiian; 4Cheese - for 4 Cheese");
+                    System.out.println("\t\t\t\t\tYour Input:" );
+                    pizzaFlavor =input.next();    
+                    System.out.println("\n\t\t\t\t\tSelect Size" );
+                    System.out.println("\t\t\t\t\tInputs should be: R - for regular ; L - for Large; P - for Party" );
+                    System.out.println("\t\t\t\t\tYour Input:" );
+                    pizzaSize =input.next();
+                    System.out.println("\t\t\t\t\tEnter Quantity: " );
+                    qty = input.nextInt();
+                    Pizza pz = new Pizza (pizzaSize, pizzaFlavor);
+                    totalAmt1 = pz.getPizzaPrice() * qty;
+                    System.out.println("\t\t\t\t\tYou have purchased "+ pz.getFlavor()+" Pizza x"+ qty + " for "+ totalAmt1);
                     count = 0;
                     trans++;
-                }
-
-                else if(pick == 2){
-                        PastaOrder();
-                        System.out.println("\n\t\t\t\t\tSelect Type of Pasta" );
-                        System.out.println("\t\t\t\t\tInputs should corresponds to options: Spagehetti - for Spaghetti ; Carbonara - for Carbonara");
-                        System.out.println("\t\t\t\t\tYour Input:" );
-                        pastaType = input.next();
-                        System.out.println("\n\t\t\t\t\tEnter Serving" );
-                        System.out.println("\t\t\t\t\tInputs should be: S - for solo ; P - for Pan" );
-                        System.out.println("\t\t\t\t\tYour Input:" );
-                        pastaServing = input.next();
-                        System.out.println("\t\t\t\t\tEnter Quantity: " );
-                        qty = input.nextInt();
-                        Pasta ps = new Pasta (pastaServing, pastaType);
-                        totalAmt2 = ps.getPastaPrice() * qty;
-                        System.out.println("\t\t\t\t\tYou have purchased "+ ps.getPasta()+" x"+ qty + " for "+ totalAmt2);
-                        System.out.println("\t\t\t\t\tPlease wait 3 seconds\n\n\n");
-                        Syspause(3000);
+                } else if(pick == 2) {
+                    Display.PastaOrder();
+                    System.out.println("\n\t\t\t\t\tSelect Type of Pasta" );
+                    System.out.println("\t\t\t\t\tInputs should corresponds to options: Spagehetti - for Spaghetti ; Carbonara - for Carbonara");
+                    System.out.println("\t\t\t\t\tYour Input:" );
+                    pastaType = input.next();
+                    System.out.println("\n\t\t\t\t\tEnter Serving" );
+                    System.out.println("\t\t\t\t\tInputs should be: S - for solo ; P - for Pan" );
+                    System.out.println("\t\t\t\t\tYour Input:" );
+                    pastaServing = input.next();
+                    System.out.println("\t\t\t\t\tEnter Quantity: " );
+                    qty = input.nextInt();
+                    Pasta ps = new Pasta (pastaServing, pastaType);
+                    totalAmt2 = ps.getPastaPrice() * qty;
+                    System.out.println("\t\t\t\t\tYou have purchased "+ ps.getPasta()+" x"+ qty + " for "+ totalAmt2);
                     count = 0;
                     trans++;
-                }
-
-                else if(pick == 3){
-                        ChickenOrder();
-                        System.out.println("\n\t\t\t\t\tSelect Bucket Plan" );
-                        System.out.println("\t\t\t\t\tInputs should corresponds to options: SmallBucket - for Small Bucket ; MediumBucket - for Medium Bucket; LargeBucket - for Large Bucket");
-                        System.out.println("\t\t\t\t\tYour Input:" );
-                        bucketPlan = input.next();
-                        System.out.println("\t\t\t\t\tEnter Quantity: " );
-                        qty = input.nextInt();
-                        Chicken ck = new Chicken (bucketPlan);
-                        totalAmt4 = ck.getChickenPrice() * qty;
-                        System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
-                        System.out.println("\t\t\t\t\tPlease wait 3 seconds\n\n\n");
-                        Syspause(3000);
+                } else if(pick == 3) {
+                    Display.ChickenOrder();
+                    System.out.println("\n\t\t\t\t\tSelect Bucket Plan" );
+                    System.out.println("\t\t\t\t\tInputs should corresponds to options: SmallBucket - for Small Bucket ; MediumBucket - for Medium Bucket; LargeBucket - for Large Bucket");
+                    System.out.println("\t\t\t\t\tYour Input:" );
+                    bucketPlan = input.next();
+                    System.out.println("\t\t\t\t\tEnter Quantity: " );
+                    qty = input.nextInt();
+                    Chicken ck = new Chicken (bucketPlan);
+                    totalAmt4 = ck.getChickenPrice() * qty;
+                    System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
                     count = 0;
                     trans++;
-                }
-
-                else if(pick == 4){
-                        BeverageOrder();
-                        System.out.println("\n\t\t\t\t\tSelect Drink" );
-                        System.out.println("\t\t\t\t\tInputs should corresponds to options: 1 - for Pepsi ; 2 - for Coke; 3 - for Sprite; 4 - for Royal; 5 - for Root Beer");
-                        System.out.println("\t\t\t\t\tYour Input:" );
-                        DrinkNum = input.next();
-                        System.out.println("\n\t\t\t\t\tEnter Size" );
-                        System.out.println("\t\t\t\t\tInputs should be: T - for Tin Can ; P - for Pitcher" );
-                        System.out.println("\t\t\t\t\tYour Input:" );
-                        drinkSize = input.next();
-                        System.out.println("\t\t\t\t\tEnter Quantity: " );
-                        qty = input.nextInt();
-                        Beverages bv = new Beverages (drinkSize, DrinkNum);
-                        totalAmt4 = bv.getBeveragePrice() * qty;
-                        System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
-                        System.out.println("\t\t\t\t\tPlease wait 3 seconds\n\n\n");
-                        Syspause(3000);
+                } else if(pick == 4) {
+                    Display.BeverageOrder();
+                    System.out.println("\n\t\t\t\t\tSelect Drink" );
+                    System.out.println("\t\t\t\t\tInputs should corresponds to options: 1 - for Pepsi ; 2 - for Coke; 3 - for Sprite; 4 - for Royal; 5 - for Root Beer");
+                    System.out.println("\t\t\t\t\tYour Input:" );
+                    DrinkNum = input.next();
+                    System.out.println("\n\t\t\t\t\tEnter Size" );
+                    System.out.println("\t\t\t\t\tInputs should be: T - for Tin Can ; P - for Pitcher" );
+                    System.out.println("\t\t\t\t\tYour Input:" );
+                    drinkSize = input.next();
+                    System.out.println("\t\t\t\t\tEnter Quantity: " );
+                    qty = input.nextInt();
+                    Beverages bv = new Beverages (drinkSize, DrinkNum);
+                    totalAmt4 = bv.getBeveragePrice() * qty;
+                    System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
                     count = 0;
                     trans++;
-                }
-                else if(pick ==5){
+                } else if(pick ==5) {
                     count = 0;
-                }
-                else{
+                } else {
                     System.out.println("Pick from Pizza, Pasta, Chicken, or Beverage only!");
-                        System.out.println("\t\t\t\t\tPlease wait 3 seconds\n\n\n");
-                        Syspause(3000);
-                        order ();
+                    Display.order ();
                 }
-            }
-
-
-            else if(choice == 2){
+            } else if(choice == 2) {
                 if (trans==0) {
                     System.out.println("You currently don't have any orders ");
-                }
-                else {
-                System.out.println("Total of transactions " + trans);
+                } else {
+                    System.out.println("Total of transactions " + trans);
                 }
                 count = 0;
-
-            }
-            else if(choice == 3) {
+            } else if(choice == 3) {
                 System.exit(0);
                 count = 0;
-            }
-
-            else {
+            } else {
                 System.out.println("Invalid Entry");
                 System.out.println("Choose 1, 2 or 3 only!");
-                menu();
+                Display.menu();
                 count = 0;
             }
         }
