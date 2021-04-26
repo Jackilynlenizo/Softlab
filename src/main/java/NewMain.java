@@ -32,13 +32,15 @@ class Display { // Function classes for all display related functions
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
-    public static void order(int t_orderNumber) {
+    public static void order(Purchase t_purchase) {
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("\t\t\t\t      ORDER NO. " + t_orderNumber);
+            System.out.println("\t\t\t\t      ORDER NO. " + t_purchase.getNumber());
             System.out.println("\t\t\t\t        [1] Add Food                        ");
             System.out.println("\t\t\t\t        [2] Pay and Finish Order         ");
             System.out.println("\t\t\t\t        [3] Cancel Order                        ");
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("Orders: ");
+            t_purchase.listOrders();
     }
     
     public static void food() {
@@ -116,6 +118,10 @@ class Transaction {
         super();
         this.transactionNumber = t_transactionNumber;
     }
+
+    public int getNumber() {
+        return transactionNumber;
+    }
 }
 
 class Purchase extends Transaction {
@@ -132,7 +138,15 @@ class Purchase extends Transaction {
     public void addOrder(Menu t_item) {
         this.orderList.add(t_item);
     }
-
+    
+    public void listOrders() {
+        System.out.println("===================");
+        for (int i = 0; i < orderList.size(); i++) {
+            System.out.println(orderList.get(i).getName() + " - " + orderList.get(i).getPrice());
+        }
+        System.out.println("===================");
+    }
+    
     public double getSubtotal() {
         for (int i=0; i < orderList.size(); i++) {
             subtotal = subtotal + orderList.get(i).price; // Get price of every item in orderList
@@ -148,10 +162,10 @@ class Purchase extends Transaction {
         // If you're wondering why this needs to return an int, pay() needs to return
         // something if ever an error occurs. i.e. return 1 if everything is OK, return 2
         // if kulang pera etc etc, that way mahahandle ng program in if ever magka problem
-        if (t_payment.amount >= subtotal*VAT) {
-            // Pag tama amount ng pera nung bumili, ibig sabihin proceed, else return an error code
-            this.amountPaid = t_payment.amount;
-            this.amountChange = t_payment.amount - subtotal*VAT;
+        if (t_payment.getAmount() >= subtotal*VAT && t_payment.isValid()) {
+////////////            // Pag tama amount ng pera nung bumili, ibig sabihin proceed, else return an error code
+            this.amountPaid = t_payment.getAmount();
+            this.amountChange = t_payment.getAmount() - subtotal*VAT;
             return 1;
         } else {
             // Hindi q na dito ilalagay yung print not enough funds keme,
@@ -164,7 +178,8 @@ class Purchase extends Transaction {
 class Payment {
     
     private String method; // Method can be "cash", "credit", "debit", "gcash", "paymaya"
-    double amount;
+    private double amount;
+    // cardNumber, pin, accountHolder are private and can only be written through constructor for security. no getters and setters for these three
     private String cardNumber;
     private String pin;
     private String accountHolder;
@@ -186,6 +201,28 @@ class Payment {
         this.pin = t_pin;
         this.accountHolder = t_accountHolder;
     }
+    
+    // Amount only has a getter and no setter because it's read only for security reasons
+    public double getAmount() {
+        return this.amount;    
+    }
+    
+    public boolean isValid() {
+        // To be a valid cash payment, only non-zero amt is needed
+        // To be a valid online/card payment, check lengths of details
+        // There are legitimate algorithms to determine if card numbers are legitmate, but we will not implement them to reduce complexity
+        if (method.equals("cash") && amount != 0) {
+            return true;
+        } else if (method.equals("test")) {
+            if (!(cardNumber.isEmpty() && pin.isEmpty() && accountHolder.isEmpty())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
 
 class Utils {
@@ -199,8 +236,8 @@ class Utils {
 
 //Superclass
 class Menu{
-    public String name;
-    public double price;
+    protected String name;
+    protected double price;
     
     public Menu(){
         super();
@@ -210,53 +247,68 @@ class Menu{
         this.name = t_name;
         this.price = t_price;
     }
+
+    public void setName(String t_name) {
+        this.name = t_name;
+    }
+
+    public void setPrice(double t_price) {
+        this.price = t_price;
+    }
+    
+    public String getName() {
+        return name;        
+    }
+
+    public double getPrice() {
+        return price;        
+    }
 }
 
 class Pizza extends Menu{
     public String size;
-    public String flavors;
+    public String flavor;
     
     public Pizza(){
         super();
     }
     
-    public Pizza(String size, String flavors){
-        this.size = size;
-        if (null != size)
-            switch (size) {
-          case "R"://regular
-                this.price = 349;
+    public Pizza(String t_size, String t_flavor){
+        if (null != t_size) {
+            switch (t_size) {
+            case "R"://regular
+                this.setPrice(349);
+                this.size = "Regular";
                 break;
-          case "L"://large
-                this.price = 599;
+            case "L"://large
+                this.setPrice(599);
+                this.size = "Large";
                 break;
-          case "P"://party
-                this.price = 799;
-                break;
-            default:
-                System.out.println("Invalid option.");
-        }
-        if (null != flavors)
-            switch (flavors) {
-            case "Pepperoni":
-                this.flavors = "Pepperoni";
-                break;
-            case "Hawaiian":
-                this.flavors = "Hawaiian";
-                break;
-            case "4 Cheese":
-                this.flavors = "4 Cheese";
+            case "P"://party
+                this.setPrice(799);
+                this.size = "Party";
                 break;
             default:
                 System.out.println("Invalid option.");
+            }
         }
+        if (null != t_flavor) {
+            switch (t_flavor) {
+            case "P":
+                this.flavor = "Pepperoni";
+                break;
+            case "H":
+                this.flavor = "Hawaiian";
+                break;
+            case "4":
+                this.flavor = "4 Cheese";
+                break;
+            default:
+                System.out.println("Invalid option.");
+            }
+        }
+        this.name = this.flavor + " " + this.size;
     }
-  public double getPizzaPrice () {
-	  return price;
-}
-  public String getFlavor() {
-	  return flavors;
-  }
 }
 
 
@@ -268,87 +320,84 @@ class Pasta extends Menu{
         super();
     }
     
-    public Pasta (String serving, String typeofPasta){
+    public Pasta (String t_serving, String t_typeofPasta){
         this.serving = serving;
-        if (null != serving)
-            switch (serving) {
+        if (null != t_serving) {
+            switch (t_serving) {
               case "S": //solo
                     this.price = 99;
+                    this.serving = "Solo";
                     break;
               case "P": //pan
                     this.price = 249;
+                    this.serving = "Pan";
                     break;
                 default:
                     System.out.println("Invalid option.");
             }
-        if (null != typeofPasta)
-            switch (typeofPasta) {
-                case "Spaghetti":
+        }
+        if (null != t_typeofPasta) {
+            switch (t_typeofPasta) {
+                case "S":
                     this.typeofPasta = "Spaghetti";
                     break;
-                case "Carbonara":
+                case "C":
                     this.typeofPasta = "Carbonara";
                     break;
                 default:
                     System.out.println("Invalid option.");
             }
+        }
+        this.name = this.serving + " " + this.typeofPasta;
     } 
-  public double getPastaPrice () {
-	  return price;
-}
-  public String getPasta() {
-	  return typeofPasta;
-  }
 }
 
 class Beverage extends Menu{
     public String size;
-    public String drinks;
+    public String drink;
     
     public Beverage() {
         super();
     }
     
-  public Beverage(String size, String drinks){
-        this.size  = size;
-        if (null != size)
-            switch (size) {
-              case "T": //tin can
+  public Beverage(String t_size, String t_drink){
+        if (null != t_size) {
+            switch (t_size) {
+                case "T": //tin can
+                    this.size = "Tin Can";
                     this.price = 49;
                     break;
               case "P"://pitcher
-                   this.price = 99;
-                   break;
-                default:
-                    System.out.println("Invalid option.");
-            }
-        if (null != drinks)
-            switch (drinks) {
-                case "Pepsi":
-                    this.drinks = "Pepsi";
+                    this.size = "Tin Can";
+                    this.price = 99;
                     break;
-                case "Coke":
-                   this.drinks = "Coke";
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
+        if (null != t_drink) {
+            switch (t_drink) {
+                case "P":
+                    this.drink = "Pepsi";
+                    break;
+                case "C":
+                   this.drink = "Coke";
                    break;
-                case "Sprite":
-                   this.drinks = "Sprite";
+                case "S":
+                   this.drink = "Sprite";
                    break;
-                case "Royal":
-                   this.drinks = "Royal";
+                case "Ro":
+                   this.drink = "Royal";
                    break;
-                case "Root beer":
-                 this.drinks = "RootBeer";
+                case "RB":
+                 this.drink = "Root Beer";
                    break;
                 default:
                     System.out.println("Invalid option.");
             }
+        }
+        this.name = this.size + " " + this.drink;
     } 
-  public double getBeveragePrice () {
-	  return price;
-}
-  public String getDrinks() {
-	  return drinks;
-  }
 }
 
 class Chicken extends Menu {
@@ -358,25 +407,26 @@ class Chicken extends Menu {
         super();
     }
     
-    public Chicken(String size){
-        this.size = size;
-        if (null != size)
-            switch (size) {
-          case "SmallBucket":
+    public Chicken(String t_size){
+        if (null != t_size) {
+            switch (t_size) {
+            case "S":
+                this.size = "Small Bucket";
                 this.price = 299;
                 break;
-          case "MediumBucket":
+            case "M":
+                this.size = "Medium Bucket";
                 this.price = 549;
                 break;
-          case "LargeBucket":
+            case "L":
+                this.size = "Large Bucket";
                 this.price = 799;
                 break;
             default:
                 System.out.println("Invalid option.");
+            }
         }
-    }
-    public double getChickenPrice () {
-	  return price;
+        this.name = this.size + " Chicken";
     }
 }
 
@@ -389,18 +439,10 @@ public class NewMain {
         int paymentChoice;
         int count =0;
         int trans =0;
-        int qty = 0;
-        double totalAmt1 = 0.0;
-        double totalAmt2 = 0.0;
-        double totalAmt3 = 0.0;
-        double totalAmt4 = 0.0;
-        String pizzaSize;
-        String pastaServing;
-        String drinkSize;
-        String pizzaFlavor;
-        String pastaType;
-        String bucketPlan;
-        String DrinkNum;
+        int qtyInput;
+        String nameInput;
+        String sizeInput;
+        
         
         boolean exit = false; // Exit flag, if true, get out of loop
         while (!exit) {
@@ -409,9 +451,9 @@ public class NewMain {
             menuChoice = input.nextInt();
             if(menuChoice == 1){
                 boolean exitOrder = false;
+                Purchase currentPurchase = new Purchase(1); // TODO: Make util function that generates trans numbers
                 while (!exitOrder) {
-                    Purchase currentPurchase = new Purchase(1); // TODO: Make util function that generates trans numbers
-                    Display.order(1);
+                    Display.order(currentPurchase);
                     System.out.println("\t\t\t\t\tYour Input:");
                     orderChoice = input.nextInt();
                     if (orderChoice == 1) {
@@ -421,69 +463,71 @@ public class NewMain {
                         count = 0;
                         if(foodChoice == 1) {
                             Display.PizzaOrder();
-                            Pizza pizzaPurchase = new Pizza();
                             System.out.println("\n\t\t\t\t\tSelect Flavor" );
                             System.out.println("\t\t\t\t\tInputs should corresponds to options: Pepperoni - for Pepperoni ; Hawaiian - for Hawaiian; 4Cheese - for 4 Cheese");
                             System.out.println("\t\t\t\t\tYour Input:" );
-                            pizzaPurchase.flavors =input.next();    
+                            nameInput = input.next();    
                             System.out.println("\n\t\t\t\t\tSelect Size" );
                             System.out.println("\t\t\t\t\tInputs should be: R - for regular ; L - for Large; P - for Party" );
                             System.out.println("\t\t\t\t\tYour Input:" );
-                            pizzaPurchase.size = input.next();
+                            sizeInput = input.next();
                             System.out.println("\t\t\t\t\tEnter Quantity: " );
-                            qty = input.nextInt(); // TODO handle quantities
+                            qtyInput = input.nextInt(); // TODO handle quantities
         //                    totalAmt1 = pz.getPizzaPrice() * qty; // and prices
         //                    System.out.println("\t\t\t\t\tYou have purchased "+ pz.getFlavor()+" Pizza x"+ qty + " for "+ totalAmt1);
+//                            pizzaPurchase.setName("test name");
+                            Pizza pizzaPurchase = new Pizza(sizeInput, nameInput);
                             currentPurchase.addOrder(pizzaPurchase);
                             count = 0;
                             trans++;
                         } else if(foodChoice == 2) {
                             Display.PastaOrder();
-                            Pasta pastaPurchase = new Pasta();
                             System.out.println("\n\t\t\t\t\tSelect Type of Pasta" );
                             System.out.println("\t\t\t\t\tInputs should corresponds to options: Spagehetti - for Spaghetti ; Carbonara - for Carbonara");
                             System.out.println("\t\t\t\t\tYour Input:" );
-                            pastaPurchase.typeofPasta = input.next();
+                            nameInput = input.next();
                             System.out.println("\n\t\t\t\t\tEnter Serving" );
                             System.out.println("\t\t\t\t\tInputs should be: S - for solo ; P - for Pan" );
                             System.out.println("\t\t\t\t\tYour Input:" );
-                            pastaPurchase.serving = input.next();
+                            sizeInput = input.next();
                             System.out.println("\t\t\t\t\tEnter Quantity: " );
-                            qty = input.nextInt();
+                            qtyInput = input.nextInt();
         //                    totalAmt2 = ps.getPastaPrice() * qty;
         //                    System.out.println("\t\t\t\t\tYou have purchased "+ ps.getPasta()+" x"+ qty + " for "+ totalAmt2);
+                            Pasta pastaPurchase = new Pasta(sizeInput, nameInput);
                             currentPurchase.addOrder(pastaPurchase);
                             count = 0;
                             trans++;
                         } else if(foodChoice == 3) {
                             Display.ChickenOrder();
-                            Chicken chickenPurchase = new Chicken();
                             System.out.println("\n\t\t\t\t\tSelect Bucket Plan" );
                             System.out.println("\t\t\t\t\tInputs should corresponds to options: SmallBucket - for Small Bucket ; MediumBucket - for Medium Bucket; LargeBucket - for Large Bucket");
                             System.out.println("\t\t\t\t\tYour Input:" );
-                            chickenPurchase.size = input.next();
+                            sizeInput = input.next();
                             System.out.println("\t\t\t\t\tEnter Quantity: " );
-                            qty = input.nextInt();
+                            qtyInput = input.nextInt();
         //                    totalAmt4 = ck.getChickenPrice() * qty;
         //                    System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
+                            Chicken chickenPurchase = new Chicken(sizeInput);
                             currentPurchase.addOrder(chickenPurchase);
                             count = 0;
                             trans++;
                         } else if(foodChoice == 4) {
                             Display.BeverageOrder();
-                            Beverage beveragePurchase = new Beverage();
                             System.out.println("\n\t\t\t\t\tSelect Drink" );
                             System.out.println("\t\t\t\t\tInputs should corresponds to options: 1 - for Pepsi ; 2 - for Coke; 3 - for Sprite; 4 - for Royal; 5 - for Root Beer");
                             System.out.println("\t\t\t\t\tYour Input:" );
-                            beveragePurchase.drinks = input.next();
+                            nameInput = input.next();
                             System.out.println("\n\t\t\t\t\tEnter Size" );
                             System.out.println("\t\t\t\t\tInputs should be: T - for Tin Can ; P - for Pitcher" );
                             System.out.println("\t\t\t\t\tYour Input:" );
-                            beveragePurchase.size = input.next();
+                            sizeInput = input.next();
                             System.out.println("\t\t\t\t\tEnter Quantity: " );
-                            qty = input.nextInt();
+                            qtyInput = input.nextInt();
         //                    totalAmt4 = bv.getBeveragePrice() * qty;
         //                    System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
+                            Beverage beveragePurchase = new Beverage(sizeInput, nameInput);
+                            currentPurchase.addOrder(beveragePurchase);
                             count = 0;
                             trans++;
                         } else if(foodChoice ==5) {
@@ -500,7 +544,7 @@ public class NewMain {
                         double amountPaid; 
                         String method;
                         if (paymentChoice == 1) {
-                            method = "Cash";
+                            method = "cash";
                             amountPaid = input.nextDouble();
                             Payment currentPayment = new Payment(method, amountPaid);
                             exitOrder = true;
@@ -525,7 +569,7 @@ public class NewMain {
                             System.out.println("Invalid option");
                         }
                     } else if (orderChoice == 3) {
-                        // Cancel Order
+                        exitOrder = true;
                     }
                 }
                 
