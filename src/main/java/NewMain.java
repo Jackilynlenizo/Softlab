@@ -477,7 +477,9 @@ public class NewMain {
         //                    System.out.println("\t\t\t\t\tYou have purchased "+ pz.getFlavor()+" Pizza x"+ qty + " for "+ totalAmt1);
 //                            pizzaPurchase.setName("test name");
                             Pizza pizzaPurchase = new Pizza(sizeInput, nameInput);
-                            currentPurchase.addOrder(pizzaPurchase);
+                            for (int i = 0; i < qtyInput; i++) {
+                                currentPurchase.addOrder(pizzaPurchase);
+                            }
                             count = 0;
                             trans++;
                         } else if(foodChoice == 2) {
@@ -495,7 +497,9 @@ public class NewMain {
         //                    totalAmt2 = ps.getPastaPrice() * qty;
         //                    System.out.println("\t\t\t\t\tYou have purchased "+ ps.getPasta()+" x"+ qty + " for "+ totalAmt2);
                             Pasta pastaPurchase = new Pasta(sizeInput, nameInput);
-                            currentPurchase.addOrder(pastaPurchase);
+                            for (int i = 0; i < qtyInput; i++) {
+                                currentPurchase.addOrder(pastaPurchase);
+                            }
                             count = 0;
                             trans++;
                         } else if(foodChoice == 3) {
@@ -509,7 +513,9 @@ public class NewMain {
         //                    totalAmt4 = ck.getChickenPrice() * qty;
         //                    System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
                             Chicken chickenPurchase = new Chicken(sizeInput);
-                            currentPurchase.addOrder(chickenPurchase);
+                            for (int i = 0; i < qtyInput; i++) {
+                                currentPurchase.addOrder(chickenPurchase);
+                            }
                             count = 0;
                             trans++;
                         } else if(foodChoice == 4) {
@@ -527,7 +533,9 @@ public class NewMain {
         //                    totalAmt4 = bv.getBeveragePrice() * qty;
         //                    System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
                             Beverage beveragePurchase = new Beverage(sizeInput, nameInput);
-                            currentPurchase.addOrder(beveragePurchase);
+                            for (int i = 0; i < qtyInput; i++) {
+                                currentPurchase.addOrder(beveragePurchase);
+                            }
                             count = 0;
                             trans++;
                         } else if(foodChoice ==5) {
