@@ -14,11 +14,6 @@ conditions:
     - Simulate a purchase of a customer
  */
 
-/**
- *
- * @author LENIZO
- */
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
