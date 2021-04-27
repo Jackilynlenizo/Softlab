@@ -26,42 +26,42 @@ import java.util.Scanner;
 class Display { // Function classes for all display related functions
     public static void menu() {
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA     ");
-            System.out.println("\t\t\t\t        [1] New Order                        ");
-            System.out.println("\t\t\t\t        [2] About Page         ");
-            System.out.println("\t\t\t\t        [3] Exit                        ");
+            System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA");
+            System.out.println("\t\t\t\t        [1] New Order");
+            System.out.println("\t\t\t\t        [2] About pizzaPOS");
+            System.out.println("\t\t\t\t        [3] Exit");
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     public static void order(Purchase t_purchase) {
             System.out.println("\n\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("\t\t\t\t           ORDER NO. " + t_purchase.getNumber());
-            System.out.println("\t\t\t\t        [1] Add Food                        ");
-            System.out.println("\t\t\t\t        [2] Pay and Finish Order         ");
-            System.out.println("\t\t\t\t        [3] Cancel Order                        ");
+            System.out.println("\t\t\t\t        [1] Add Food");
+            System.out.println("\t\t\t\t        [2] Pay and Finish Order");
+            System.out.println("\t\t\t\t        [3] Cancel Order");
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             t_purchase.listOrders();
     }
     
     public static void food() {
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("\t\t\t\t          MENU                   ");
-            System.out.println("\t\t\t\t        [1] Pizza                 ");
-            System.out.println("\t\t\t\t        [2] Pasta                 ");
-            System.out.println("\t\t\t\t        [3] Chicken               ");
-            System.out.println("\t\t\t\t        [4] Beverage              ");
-            System.out.println("\t\t\t\t        [5] CANCEL                ");
+            System.out.println("\t\t\t\t           MENU");
+            System.out.println("\t\t\t\t        [1] Pizza");
+            System.out.println("\t\t\t\t        [2] Pasta");
+            System.out.println("\t\t\t\t        [3] Chicken");
+            System.out.println("\t\t\t\t        [4] Beverage");
+            System.out.println("\t\t\t\t        [5] CANCEL");
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
     
     public static void pay() {
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("\t\t\t\t          PAYMENT METHOD                   ");
-            System.out.println("\t\t\t\t        [1] Cash                 ");
-            System.out.println("\t\t\t\t        [2] Credit Card                 ");
-            System.out.println("\t\t\t\t        [3] Debit Card               ");
-            System.out.println("\t\t\t\t        [4] PayMaya              ");
-            System.out.println("\t\t\t\t        [5] GCash                ");
+            System.out.println("\t\t\t\t          PAYMENT METHOD");
+            System.out.println("\t\t\t\t        [1] Cash");
+            System.out.println("\t\t\t\t        [2] Credit Card");
+            System.out.println("\t\t\t\t        [3] Debit Card");
+            System.out.println("\t\t\t\t        [4] PayMaya");
+            System.out.println("\t\t\t\t        [5] GCash");
             System.out.println("\t\t\t\t        [6] CANCEL ORDER");
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
@@ -130,9 +130,34 @@ class Display { // Function classes for all display related functions
         System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         
     }
+
+    public static void about() {
+        System.out.println();
+        System.out.print("                                               8b,dPPYba,  ,d8888888b, ,d888888888\n" +
+        "            88                                 88P'    \"8a 88\"     \"88 8877777777 \n" +
+        "            \"\"                                 88       d8 88       88 88         \n" +
+        "                                               88       dP 88       88 88,        \n" +
+        "8b,dPPYba,  88 888888888 888888888 ,adPPYYba,  88b,   ,a8\" 88       88 `888888888b\n" +
+        "88P'    \"8a 88      a8P\"      a8P\" \"\"     `Y8  88`YbbddP   88       88         `b8\n" +
+        "88       d8 88   ,d8P'     ,d8P'   ,adPPPPP88  88          88       88         ,d8\n" +
+        "88b,   ,a8\" 88 ,d8\"      ,d8\"      88,    ,88  88          88,     ,88  aaaaaaaa88\n" +
+        "88`YbbdP\"'  88 888888888 888888888 `\"8bbdP\"Y8  88          `\"8888888\"` 888888888P \n" +
+        "88                                                                                \n" +
+        "88                                                                                \n");
+        System.out.println();
+        System.out.println("Sacayanan, Christian John P.");
+        System.out.println("Paz, Kristel Erica D.");
+        System.out.println("Lenizo, Jackilyn O.");
+        System.out.println("Dela Cruz, Rica V.");
+        System.out.println("Cruz, James Laurence A.\n");
+        System.out.println("BS CpE 2-3 | Software Design (Lab)\n\n");
+        System.out.println("Enter any key to go back.");
+        Scanner input = new Scanner(System.in);
+        input.next();
+    }
 }
 
-class Transaction {
+abstract class Transaction {
     // Base class for payments, etc
     // TODO: Payments class, etc etc
 
@@ -622,7 +647,7 @@ public class NewMain {
                 }
                 
             } else if(menuChoice == 2) {
-                // About page
+                Display.about();
             } else if(menuChoice == 3) {
                 exit = true;
             } else {
