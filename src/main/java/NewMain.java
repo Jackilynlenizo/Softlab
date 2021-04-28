@@ -1,29 +1,37 @@
 /*
-Cruz, James Laurence A.
-Dela Cruz, Rica V.
-Lenizo, Jackilyn O.
-Paz, Kristel Erica D.
-Sacayanan, Christian John P.
-BS CpE 2-3 - Software Design
-
 Week 5 - Laboratory Exercise
 Group yourselves into 5 members. Create a POS program that apply the concepts of
 OOP (Inheritance, Polymorphism, Abstraction, and Encapsulation), with the following
 conditions:
     - Create a main class, 1 superclass and atleast 2 sub-class
     - Simulate a purchase of a customer
- */
 
-/**
- *
- * @author LENIZO
+Cruz, James Laurence A.
+Dela Cruz, Rica V.
+Lenizo, Jackilyn O.
+Paz, Kristel Erica D.
+Sacayanan, Christian John P.
+
+BS CpE 2-3 - Software Design
+
+*Examples of inheritance, polymorphism, abstraction, and encapsulation can be
+ easily found by searching the following terms
+
+INHERITANCE
+POLYMORPHISM
+ABSTRACTION
+ENCAPSULATION
+
+the above are commented on the classes that they are implemented for ease of
+searching
  */
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Display { // Function classes for all display related functions
+// All text display related functions
+class Display {
     public static void menu() {
             System.out.println("\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("\t\t\t\t      WELCOME TO PLM PIZZAZERIA");
@@ -157,13 +165,14 @@ class Display { // Function classes for all display related functions
     }
 }
 
+// ABSTRACTION: Abstract class only to be used for the sake of inheritance
+// The transaction class isn't really a necessary real-world object
+// it only exists to hold abstract data, which is the transactionNumber
 abstract class Transaction {
-    // Base class for payments, etc
-    // TODO: Payments class, etc etc
-
+    // ENCAPSULATION: transactionNumber is a private variable, it only has a
+    // getter and no setter, therefore is non-editable after construction.
     private int transactionNumber;        
 
-    // Constructor overloads, an example of pmorphism
     public Transaction(int t_transactionNumber) {
         super();
         this.transactionNumber = t_transactionNumber;
@@ -174,7 +183,12 @@ abstract class Transaction {
     }
 }
 
+// INHERITANCE: Transaction is the superclass, Purchase is the subclass
 class Purchase extends Transaction {
+    // ENCAPSULATION: The following variables are privated, and can only be
+    // accessed and edited through getters and setters below. The following are
+    // encapsulated for protecting against overwriting data which makes the purchase
+    // invalid. ex. Cashier manually editing the subtotal without properly computing
     private double subtotal;
     private double amountPaid;
     private double amountChange;
@@ -182,7 +196,7 @@ class Purchase extends Transaction {
     private ArrayList<Menu> orderList = new ArrayList(); // ArrayList in Java are just dynamic arrays
     
     private DecimalFormat formatter = new DecimalFormat("#.00");
-    
+
     public Purchase(int t_transactionNumber) {
         super(t_transactionNumber);
     }
@@ -232,11 +246,8 @@ class Purchase extends Transaction {
     }
     
     public String pay(Payment t_payment) {
-        // If you're wondering why this needs to return an int, pay() needs to return
-        // something if ever an error occurs. i.e. return 1 if everything is OK, return 2
-        // if kulang pera etc etc, that way mahahandle ng program in if ever magka problem
         if (t_payment.getAmount() >= subtotal * (1 + VAT) && t_payment.isValid()) {
-////////////            // Pag tama amount ng pera nung bumili, ibig sabihin proceed, else return an error code
+        // Pag tama amount ng pera nung bumili, ibig sabihin proceed, else return an error code
             this.amountPaid = t_payment.getAmount();
             this.amountChange = t_payment.getAmount() - subtotal * (1 + VAT);
             return "Success";
@@ -244,27 +255,34 @@ class Purchase extends Transaction {
             return "Insufficient payment";
         } else if (!t_payment.isValid()) {
             return "Invalid payment details";
-        }else {
+        } else {
             return "Unknown Error";
         }
     }
 }
 
 class Payment {
-    
-    private String method; // Method can be "cash", "credit", "debit", "gcash", "paymaya"
+    // ENCAPSULATION: This class lumps together data that is related to the
+    // customer's payment. It stores the payment method, amount paid, and
+    // card details.
+    // Encapsulation in this example is also used for data hiding. The
+    // customer's card details are private, and also there are no getters for it
+    // therefore, it cannot be read from anywhere else outside this class
+
+    private String method; // Method can be "cash" or "card/online"
     private double amount;
-    // cardNumber, pin, accountHolder are private and can only be written through constructor for security. no getters and setters for these three
     private String cardNumber;
     private String pin;
     private String accountHolder;
 
-    // Constructor overloads, an example of pmorphism
+    // POLYMORPHISM: The Payment constructor is overloaded to handle either 
+    // 2 parameters, or 6 parameters. Cash payments only need the method and
+    // amount paid. But card payments need extra details, hence 6 parameters.
     public Payment(String t_method, double t_amount) {
         this.method = t_method;
         this.amount = t_amount;
     }
-
+    
     public Payment(String t_method,
                     double t_amount,
                     String t_cardNumber,
@@ -277,7 +295,10 @@ class Payment {
         this.accountHolder = t_accountHolder;
     }
     
-    // Amount only has a getter and no setter because it's read only for security reasons
+    // ENCAPSULATION: The opposite is used in the amount variable. It can only
+    // be read, but the initial value from the constructor cannot be overwritten
+    // because there is no getter. This is another example of encapsulation for
+    // data protection
     public double getAmount() {
         return this.amount;    
     }
@@ -299,8 +320,10 @@ class Payment {
     }
 }
 
-//Superclass
-class Menu{
+// ABSTRACTION: The menu class cannot be instantiated on its own, because there
+// is no such food that is "menu". This class' purpose is for it to be derived
+// in the actual menu items that follows
+abstract class Menu {
     protected String name;
     protected double price;
     
@@ -330,6 +353,8 @@ class Menu{
     }
 }
 
+// INHERITANCE: This class is derived from the Menu class, which makes Pizza a
+// subclass of Menu
 class Pizza extends Menu{
     private String size;
     private String flavor;
@@ -376,6 +401,8 @@ class Pizza extends Menu{
     }
 }
 
+// INHERITANCE: This class is derived from the Menu class, which makes Pasta a
+// subclass of Menu
 class Pasta extends Menu{
     private String serving;
     private String typeofPasta;
@@ -415,6 +442,8 @@ class Pasta extends Menu{
     } 
 }
 
+// INHERITANCE: This class is derived from the Menu class, which makes Beverage a
+// subclass of Menu
 class Beverage extends Menu{
     public String size;
     public String drink;
@@ -463,6 +492,8 @@ class Beverage extends Menu{
     } 
 }
 
+// INHERITANCE: This class is derived from the Menu class, which makes Chicken a
+// subclass of Menu
 class Chicken extends Menu {
     public String size;
     
@@ -496,15 +527,14 @@ class Chicken extends Menu {
 public class NewMain {
 	public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        int menuChoice;
-        int orderChoice;
-        int foodChoice;
+        int menuChoice;             // These variables are reserved
+        int orderChoice;            // for inputs further down the
+        int foodChoice;             // line
         int paymentChoice;
         int numTransactions = 0;
         int qtyInput;
         String nameInput;
         String sizeInput;
-        
         
         boolean exit = false; // Exit flag, if true, get out of loop
         while (!exit) {
@@ -522,77 +552,74 @@ public class NewMain {
                         Display.food();
                         System.out.println("Your Input:");
                         foodChoice = input.nextInt();
-                        if(foodChoice == 1) {
-                            Display.PizzaOrder();
-                            System.out.println("\n\t\t\t\t\tSelect Flavor" );
-                            System.out.println("\t\t\t\t\tInputs should corresponds to options: P - for Pepperoni ; H - for Hawaiian; 4 - for 4 Cheese");
-                            System.out.println("Your Input:" );
-                            nameInput = input.next();    
-                            System.out.println("\n\t\t\t\t\tSelect Size" );
-                            System.out.println("\t\t\t\t\tInputs should be: R - for regular ; L - for Large; P - for Party" );
-                            System.out.println("Your Input:" );
-                            sizeInput = input.next();
-                            System.out.println("\n\t\t\t\t\tEnter Quantity: " );
-                            qtyInput = input.nextInt(); // TODO handle quantities
-                            Pizza pizzaPurchase = new Pizza(sizeInput, nameInput);
-                            for (int i = 0; i < qtyInput; i++) {
-                                currentPurchase.addOrder(pizzaPurchase);
-                            }
-                        } else if(foodChoice == 2) {
-                            Display.PastaOrder();
-                            System.out.println("\n\t\t\t\t\tSelect Type of Pasta" );
-                            System.out.println("\t\t\t\t\tInputs should corresponds to options: S - for Spaghetti ; Carbonara - for Carbonara");
-                            System.out.println("\t\t\t\t\tYour Input:" );
-                            nameInput = input.next();
-                            System.out.println("\n\t\t\t\t\tEnter Serving" );
-                            System.out.println("\t\t\t\t\tInputs should be: S - for solo ; P - for Pan" );
-                            System.out.println("Your Input:" );
-                            sizeInput = input.next();
-                            System.out.println("\t\t\t\t\tEnter Quantity: " );
-                            qtyInput = input.nextInt();
-                            Pasta pastaPurchase = new Pasta(sizeInput, nameInput);
-                            for (int i = 0; i < qtyInput; i++) {
-                                currentPurchase.addOrder(pastaPurchase);
-                            }
-                        } else if(foodChoice == 3) {
-                            Display.ChickenOrder();
-                            System.out.println("\n\t\t\t\t\tSelect Bucket Plan" );
-                            System.out.println("\t\t\t\t\tInputs should corresponds to options: S - for Small Bucket ; M - for Medium Bucket; L - for Large Bucket");
-                            System.out.println("Your Input:" );
-                            sizeInput = input.next();
-                            System.out.println("\t\t\t\t\tEnter Quantity: " );
-                            qtyInput = input.nextInt();
-        //                    totalAmt4 = ck.getChickenPrice() * qty;
-        //                    System.out.println("\t\t\t\t\tYou have purchased "+ qty +" BucketPlan"+ ck.getChickenPrice()+ " each for "+ totalAmt4);
-                            Chicken chickenPurchase = new Chicken(sizeInput);
-                            for (int i = 0; i < qtyInput; i++) {
-                                currentPurchase.addOrder(chickenPurchase);
-                            }
-                        } else if(foodChoice == 4) {
-                            Display.BeverageOrder();
-                            System.out.println("\n\t\t\t\t\tSelect Drink" );
-                            System.out.println("\t\t\t\t\tInputs should corresponds to options: P - for Pepsi ; C - for Coke; S - for Sprite; Ro - for Royal; Rb - for Root Beer");
-                            System.out.println("Your Input:" );
-                            nameInput = input.next();
-                            System.out.println("\n\t\t\t\t\tEnter Size" );
-                            System.out.println("\t\t\t\t\tInputs should be: T - for Tin Can ; P - for Pitcher" );
-                            System.out.println("Your Input:" );
-                            sizeInput = input.next();
-                            System.out.println("\t\t\t\t\tEnter Quantity: " );
-                            qtyInput = input.nextInt();
-        //                    totalAmt4 = bv.getBeveragePrice() * qty;
-        //                    System.out.println("\t\t\t\t\tYou have purchased "+ bv.getDrinks()+" x"+ qty + " for "+ totalAmt4);
-                            Beverage beveragePurchase = new Beverage(sizeInput, nameInput);
-                            for (int i = 0; i < qtyInput; i++) {
-                                currentPurchase.addOrder(beveragePurchase);
-                            }
-                        } else if(foodChoice == 5) {
+                        if(foodChoice == 1) { // If customer chooses pizza
+// Removed indents to save screenshot space
+Display.PizzaOrder();
+System.out.println("\n\t\t\t\t\tSelect Flavor" );
+System.out.println("\t\t\t\t\tInputs should corresponds to options: P - for Pepperoni ; H - for Hawaiian; 4 - for 4 Cheese");
+System.out.println("Your Input:" );
+nameInput = input.next();
+System.out.println("\n\t\t\t\t\tSelect Size" );
+System.out.println("\t\t\t\t\tInputs should be: R - for regular ; L - for Large; P - for Party" );
+System.out.println("Your Input:" );
+sizeInput = input.next();
+System.out.println("\n\t\t\t\t\tEnter Quantity: " );
+qtyInput = input.nextInt();
+Pizza pizzaPurchase = new Pizza(sizeInput, nameInput);
+for (int i = 0; i < qtyInput; i++) {
+    currentPurchase.addOrder(pizzaPurchase);
+}
+                        } else if(foodChoice == 2) { // customer chooses pasta
+Display.PastaOrder();
+System.out.println("\n\t\t\t\t\tSelect Type of Pasta" );
+System.out.println("\t\t\t\t\tInputs should corresponds to options: S - for Spaghetti ; Carbonara - for Carbonara");
+System.out.println("\t\t\t\t\tYour Input:" );
+nameInput = input.next();
+System.out.println("\n\t\t\t\t\tEnter Serving" );
+System.out.println("\t\t\t\t\tInputs should be: S - for solo ; P - for Pan" );
+System.out.println("Your Input:" );
+sizeInput = input.next();
+System.out.println("\t\t\t\t\tEnter Quantity: " );
+qtyInput = input.nextInt();
+Pasta pastaPurchase = new Pasta(sizeInput, nameInput);
+for (int i = 0; i < qtyInput; i++) {
+    currentPurchase.addOrder(pastaPurchase);
+}
+                        } else if(foodChoice == 3) { // customer chooses chicken
+Display.ChickenOrder();
+System.out.println("\n\t\t\t\t\tSelect Bucket Plan" );
+System.out.println("\t\t\t\t\tInputs should corresponds to options: S - for Small Bucket ; M - for Medium Bucket; L - for Large Bucket");
+System.out.println("Your Input:" );
+sizeInput = input.next();
+System.out.println("\t\t\t\t\tEnter Quantity: " );
+qtyInput = input.nextInt();
+Chicken chickenPurchase = new Chicken(sizeInput);
+for (int i = 0; i < qtyInput; i++) {
+    currentPurchase.addOrder(chickenPurchase);
+}
+                        } else if(foodChoice == 4) { // customer chooses beverage
+Display.BeverageOrder();
+System.out.println("\n\t\t\t\t\tSelect Drink" );
+System.out.println("\t\t\t\t\tInputs should corresponds to options: P - for Pepsi ; C - for Coke; S - for Sprite; Ro - for Royal; Rb - for Root Beer");
+System.out.println("Your Input:" );
+nameInput = input.next();
+System.out.println("\n\t\t\t\t\tEnter Size" );
+System.out.println("\t\t\t\t\tInputs should be: T - for Tin Can ; P - for Pitcher" );
+System.out.println("Your Input:" );
+sizeInput = input.next();
+System.out.println("\t\t\t\t\tEnter Quantity: " );
+qtyInput = input.nextInt();
+Beverage beveragePurchase = new Beverage(sizeInput, nameInput);
+for (int i = 0; i < qtyInput; i++) {
+    currentPurchase.addOrder(beveragePurchase);
+}
+                        } else if(foodChoice == 5) { // customer chooses cancel
                             // Do nothing
-                        } else {
+                        } else {                     // invalid input handling
                             System.out.println("Pick from Pizza, Pasta, Chicken, or Beverage only!");
                             Display.food();
                         }
-                    } else if (orderChoice == 2) {
+                    } else if (orderChoice == 2) { // finish and pay
                         Display.pay();
                         DecimalFormat formatter = new DecimalFormat("#.00");
                         System.out.println("Amount due: " + formatter.format(currentPurchase.getTotal()));
@@ -600,7 +627,7 @@ public class NewMain {
                         paymentChoice = input.nextInt();
                         input.nextLine(); // Fix for scanner bug
                         double amountPaid; 
-                        if (paymentChoice == 1) {
+                        if (paymentChoice == 1) { // Customer pays with cash
                             System.out.println("Amount paid by customer:");
                             amountPaid = input.nextDouble();
                             Payment currentPayment = new Payment("Cash", amountPaid);
@@ -613,11 +640,11 @@ public class NewMain {
                             }
                             numTransactions++;
                             exitOrder = true;
-                        } else if (paymentChoice == 2 ||
-                                paymentChoice == 3 ||
-                                paymentChoice == 4 ||
-                                paymentChoice == 5) {
-                            // Debit/Credit/Online Payment
+                        } else if ( paymentChoice == 2 || // Customer pays with
+                                    paymentChoice == 3 || // Credit, Debit,
+                                    paymentChoice == 4 || // GCash, or PayMaya
+                                    paymentChoice == 5 ) {
+                            
                             System.out.println("Please let the customer fill out the following details");
                             System.out.println("====================");
                             System.out.println("Account name: ");
@@ -636,6 +663,7 @@ public class NewMain {
                             }
                             numTransactions++;
                             exitOrder = true;
+                            
                         } else if (paymentChoice == 6) {
                             // Cancel Payment
                         } else {
