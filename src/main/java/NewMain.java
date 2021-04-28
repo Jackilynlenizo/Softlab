@@ -6,6 +6,7 @@ conditions:
     - Create a main class, 1 superclass and atleast 2 sub-class
     - Simulate a purchase of a customer
 
+Group 1
 Cruz, James Laurence A.
 Dela Cruz, Rica V.
 Lenizo, Jackilyn O.
@@ -153,6 +154,7 @@ class Display {
         "88                                                                                \n" +
         "88                                                                                \n");
         System.out.println();
+        System.out.println("Group 1");
         System.out.println("Sacayanan, Christian John P.");
         System.out.println("Paz, Kristel Erica D.");
         System.out.println("Lenizo, Jackilyn O.");
